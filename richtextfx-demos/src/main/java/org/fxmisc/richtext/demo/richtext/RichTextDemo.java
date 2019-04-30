@@ -35,6 +35,10 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.Mnemonic;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -114,6 +118,11 @@ public class RichTextDemo extends Application {
         Button copyBtn = createButton("copy", area::copy, "Copy");
         Button pasteBtn = createButton("paste", area::paste, "Paste");
         Button boldBtn = createButton("bold", this::toggleBold, "Bold");
+//        boldBtn
+        KeyCombination kc = new KeyCodeCombination(KeyCode.B, KeyCombination.SHORTCUT_DOWN);
+        Mnemonic mn = new Mnemonic(boldBtn, kc);
+        Runnable rn = ()-> this.toggleBold();
+
         Button italicBtn = createButton("italic", this::toggleItalic, "Italic");
         Button underlineBtn = createButton("underline", this::toggleUnderline, "Underline");
         Button strikeBtn = createButton("strikethrough", this::toggleStrikethrough, "Strike Trough");
@@ -294,6 +303,9 @@ public class RichTextDemo extends Application {
 
         Scene scene = new Scene(vbox, 600, 400);
         scene.getStylesheets().add(RichTextDemo.class.getResource("rich-text.css").toExternalForm());
+        scene.addMnemonic(mn);
+        scene.getAccelerators().put(kc, rn);
+
         primaryStage.setScene(scene);
         area.requestFocus();
         primaryStage.setTitle("Rich Text Demo");
